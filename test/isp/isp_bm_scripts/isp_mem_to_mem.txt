@@ -1,0 +1,26 @@
+set 0x00000014 0xffffffff // reset isp -step1
+set 0x00000014 0x00000000 // reset isp -step2
+set 0x00000404 0x0000c05d // ISP_ACQ_PROP, set rgb_dma_sel, input_selection, conv_422, bayer_pat, vsync_pol, sample_edge
+set 0x0000166c 0x00000000 // for "MI_MCM_DMA_RAW_PIC_START_AD", set mcm_dma_raw_pic_start_ad=0x60000000
+set 0x00001670 0x00000280 // for "MI_MCM_DMA_RAW_PIC_WIDTH", set mcm_dma_raw_pic_width=0x280=640
+set 0x00001674 0x00000280 // for "MI_MCM_DMA_RAW_PIC_LLENGTH", set mcm_dma_raw_pic_llength=0x280=640
+set 0x00001678 0x00096000 // for "MI_MCM_DMA_RAW_PIC_SIZE", mcm_dma_raw_pic_size=0x96000=614400=480*2*640
+set 0x00001690 0x00000500 // for "MI_MCM_DMA_RAW_PIC_LVAL", set mcm_dma_raw_width_bytes=0x500=1280=2*640
+set 0x00001604 0x00000004 // for "MI_MCM_FMT", set mcm_rd_raw_bit=b'100: RAW16
+set 0x000016c0 0x01800025 // for "MI_IMSC", enable interrupt masks
+set 0x00001600 0x000000FA // for "MI_MCM_CTRL", set mcm_rd_cfg_upd=mcm_rd_auto_update=1
+set 0x00001300 0x0000c001 // for "MI_CTRL", set mcm_raw_rdma_start, mcm_raw_rdma_path_enable
+set 0x00000400 0x00000219 // for "ISP_CTRL",  inform_enable, set isp_mode, isp_enable
+get 0x00000014
+get 0x000015e0 // Read MI_SP2_DMA_RAW_STATUS
+get 0x0000168c // Read MI_MCM_DMA_STATUS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x000016e0 // Read MI_RIS
+get 0x00000400 // Read ISP_CTRL
+get 0x000016e0 // Read MI_RIS
+get 0x00000014
