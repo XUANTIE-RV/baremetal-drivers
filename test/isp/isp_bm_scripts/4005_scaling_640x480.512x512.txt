@@ -1,0 +1,67 @@
+0 00002800 00000000	// Default: disable De-noising
+0 00002900 00000000	// Default: Disable DPCC
+0 00000018 00000000	// Default: VI_DPCL (Data Path Control Register)
+0 00000400 00000000	// Disable ISP_CTRL.disable_isp_clk
+0 00001200 00000000	// Ensure ISP_MCM_CTRL.mcm_bypass_en=0, means data is coming from MCM read from DDR
+0 00000408 00000000	// ISP_ACQ_H_OFFS = 0
+0 0000040c 00000000	// ISP_ACQ_V_OFFS = 0
+0 00000410 00000280	// ISP_ACQ_H_SIZE = 0x280 = 640
+0 00000414 000001e0	// ISP_ACQ_V_SIZE = 0x1e0 = 480
+0 00000594 00000000	// ISP_OUT_H_OFFS = 0
+0 00000598 00000000	// ISP_OUT_V_OFFS = 0
+0 0000059c 00000280	// ISP_OUT_H_SIZE = 0x280 = 640
+0 000005a0 000001e0	// ISP_OUT_V_SIZE = 0x1e0 = 480
+0 00002308 00000000	// ISP_IS_H_OFFS = 0 // can't remove
+0 0000230c 00000000	// ISP_IS_V_OFFS = 0 // can't remove
+0 00002310 00000280	// ISP_IS_H_SIZE = 0 // can't remove
+0 00002314 000001e0	// ISP_IS_H_OFFS = 0 // can't remove
+0 00000018 00001041	// VI_DPCL.vi_chan_mode=Enable MP, vi_dma_switch=path to ISP, vi_mp_mux=main resize to MI
+0 00000014 00000100	// VI_IRCL, make sure ie to be reset mode
+0 00000010 0001fe7b	// VI_ICCL, make sure vi_mrsz_clk_enable (Main resize clock enable), disable ie
+0 00003e60 039c0280	// ISP_DMSC_SIZE_CTRL, set img_hsize=0x280=640
+0 00003e00 00000000	// ISP_DMSC_CTRL, keep all Demosaic control to default
+0 00001324 D0000000	// MI_MP_Y_BASE_AD_INIT, set Y output addr
+0 00001328 00040000	// MI_MP_Y_SIZE_INIT， set Y output size
+0 0000132c 00000000	// MI_MP_Y_OFFS_CNT_INIT, set Y output offset
+0 00001340 D0040000	// MI_MP_CB_BASE_AD_INIT, set Cb output addr
+0 00001344 00020000	// MI_MP_CB_SIZE_INIT, set Cb output size
+0 00001348 00000000	// MI_MP_CB_OFFS_CNT_INIT, set Cb output offset
+0 0000134c 00000000	// MI_MP_CR_BASE_AD_INIT, set Cr output addr, here it's semi-planar, it not needed
+0 00001350 00000000	// MI_MP_CR_SIZE_INIT, set Cr output size
+0 00001354 00000000	// MI_MP_CR_OFFS_CNT_INIT, set CR output offset
+0 0000160c 08000000	// MI_MCM_BUS_ID.mcm_bus_sw_en=1, and set to 1’b1 before ISP works 
+0 00000c14 00008849	// MRSZ_SCALE_VC
+0 00000c10 0000eff7	// MRSZ_SCALE_VY
+0 00000c0c 0000cca4	// MRSZ_SCALE_HCR
+0 00000c08 0000cca4	// MRSZ_SCALE_HCB
+0 00000c04 0000ccb9	// MRSZ_SCALE_HY
+0 00000c00 0000024f	// MRSZ_CTRL, scale_XX_enable
+0 00001330 00000200	// MI_MP_Y_LLENGTH, line stride=0x200=512
+0 00001334 00000200	// MI_MP_Y_PIC_WIDTH, line pixel=0x200=512
+0 00001338 00000200	// MI_MP_Y_PIC_HEIGHT, hight pixel=0x200=512
+0 0000133c 00040000	// MI_MP_Y_PIC_SIZE, Y picture size=0x40000=512*512
+0 00000404 00000058	// ISP_ACQ_PROP: conv_422, bayer_pat
+0 0000131c 02000100	// MI_MP_BUS_ID: mp_bus_sw_en, mp_wr_id_en
+0 00001314 00000000	// MI_MP_FMT, keep default: YUV420,Semi-Planar...
+0 00001300 00000001	// MI_CTRL, mp_ycbcr_path_enable before next line
+0 00001310 0000003a	// MI_MP_CTRL, update immediately
+0 00000c6c 00000000	// MRSZ_FORMAT_CONV_CTRL, it seems main format control moved to MI_MP_FMT(1314)
+0 00000418 00000001	// ISP_ACQ_NR_FRAMES, acquire only 1 frame
+0 000005c8 ffffffff	// ISP_ICR, write clean all interrupt
+0 000005bc 00000023	// ISP_IMSC, active interrupt: imsc_frame_in, imsc_frame, imsc_isp_off
+0 00000400 00000697	// ISP_CTRL: isp_enable
+0 0000166c C0000000	// MI_MCM_DMA_RAW_PIC_START_AD: input raw image address
+0 00001670 00000280	// MI_MCM_DMA_RAW_PIC_WIDTH: RAW component image width
+0 00001674 00000280	// MI_MCM_DMA_RAW_PIC_LLENGTH
+0 00001678 0004b000	// MI_MCM_DMA_RAW_PIC_SIZE
+0 00001690 00000280	// MI_MCM_DMA_RAW_PIC_LVAL
+0 00001604 00000000	// MI_MCM_FMT
+0 000016c0 0087ff3f	// MI_IMSC, Interrupt Mask, enable most of interrupt
+0 00001600 00000060	// MI_MCM_CTRL, mcm_rd_cfg_upd
+0 00001300 0000c001	// MI_CTRL, mcm_raw_rdma_path_enable mcm_raw_rdma_start
+msleep 1000			// sleep 1000
+1 000016d0 00000301	// MI_MIS, should get 0x00000301
+1 000016f0 00000000	// MI_MIS2, should get 0x00000000
+1 000005c0 000000ff	// ISP_RIS, Raw interrupt status, should get 0x000000ff
+1 000005c4 00000023	// ISP_MIS, Raw interrupt status, should get 0x000000ff
+1 00000400 00000096	// ISP_CTRL, should be 0x96 
